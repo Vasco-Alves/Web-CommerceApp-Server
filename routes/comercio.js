@@ -1,24 +1,35 @@
+/**
+ * Este archivo define las rutas para las operaciones de los comercios.
+ */
 
-const express = require('express');
-const router = express.Router();
 
-const controller = require('../controllers/comercio');
+const express = require('express'); // Importar el módulo 'express' para manejar las rutas
+const router = express.Router(); // Crear un enrutador para manejar las rutas
+
+const Controller = require('../controllers/comercio'); // Controlador
+const Validator = require("../validators/comercio"); // Validador
 
 /* GET requests */
 
-// Lista de items
-router.get('/', controller.getItems);
+// Obtiene la lista de comercios.
+router.get('/', Controller.getItems);
 
-// Un solo item
-router.get('/:cif', controller.getItemByCIF);
+// Obtiene un solo comercio mediante su número de CIF.
+router.get('/:cif', Controller.getItemByCIF);
 
 /* POST requests */
-router.post('/', controller.createItem);
+
+// Crea un nuevo item de comercio, validando los datos de entrada.
+router.post('/', Validator.validateCreate, Controller.createItem);
 
 /* PUT requests */
-router.put('/:cif', controller.updateItem);
+
+// Actualiza un comercio existente mediante su número de CIF.
+router.put('/:cif', Controller.updateItem);
 
 /* DELETE requests */
-router.delete('/:cif', controller.deleteItem);
+
+// Elimina un comercio existente mediante su número de CIF.
+router.delete('/:cif', Controller.deleteItem);
 
 module.exports = router;

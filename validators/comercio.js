@@ -1,8 +1,13 @@
+/**
+ * Conjunto de validaciones utilizando express-validator 
+ * para verificar los campos de entrada al crear un comercio.
+ */
 
 const { check } = require("express-validator");
 const validateResults = require("../utils/handleValidator");
 
-const validatorCreateItem = [
+// Validador para la creación de un comercio.
+const validateCreate = [
     check("name").exists().notEmpty(),
     check("cif").exists().notEmpty(),
     check("direccion").exists().notEmpty(),
@@ -10,17 +15,9 @@ const validatorCreateItem = [
     check("telefonoContacto").exists().notEmpty(),
     check("idPagina").exists().notEmpty().isNumeric(),
     check("description").exists().notEmpty(),
-    // Optional: You can add more validation rules for each field if needed
     (req, res, next) => {
         return validateResults(req, res, next);
     }
 ];
 
-const validatorGetItem = [
-    check("id").exists().notEmpty().isMongoId(),
-    (req, res, next) => {
-        return validateResults(req, res, next);
-    }
-];
-
-module.exports = { validatorCreateItem, validatorGetItem };
+module.exports = { validateCreate };
