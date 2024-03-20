@@ -1,5 +1,6 @@
 /**
- * Controladores para realizar operaciones en la base de datos para el Comercio.
+ * Controladores para realizar operaciones en 
+ * la base de datos para el Comercio.
  */
 
 const { matchedData } = require('express-validator');
@@ -11,13 +12,18 @@ const Comercio = require('../models/comercio');
 /** Obtiene todos los comercios en la base de datos */
 const getItems = async (req, res) => {
     try {
+        let orderedBy;
+        if (req.query.order !== undefined)
+            orderedBy = req.query.order;
+
         const data = await Comercio.find();
-        // TODO add order query to list ordered list by cif
+
         res.send(data);
     } catch (err) {
         handleHttpError(res, 'ERROR_GET_ITEMS');
     }
 }
+
 
 /** Obtiene un solo comercio con un CIF específico */
 const getItemByCIF = async (req, res) => {
