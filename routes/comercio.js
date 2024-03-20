@@ -25,7 +25,7 @@ router.post('/', Validator.validateCreate, Controller.createItem);
 /* PUT requests */
 
 // Actualiza un comercio existente mediante su número de CIF.
-router.put('/:cif', Controller.updateItem);
+router.put('/:cif', Validator.validateCreate, Controller.updateItem);
 
 /* DELETE requests */
 
