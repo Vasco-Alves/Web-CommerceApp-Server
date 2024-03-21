@@ -12,18 +12,12 @@ const Comercio = require('../models/comercio');
 /** Obtiene todos los comercios en la base de datos */
 const getItems = async (req, res) => {
     try {
-        let orderedBy;
-        if (req.query.order !== undefined)
-            orderedBy = req.query.order;
-
         const data = await Comercio.find();
-
         res.send(data);
     } catch (err) {
         handleHttpError(res, 'ERROR_GET_ITEMS');
     }
 }
-
 
 /** Obtiene un solo comercio con un CIF específico */
 const getItemByCIF = async (req, res) => {
@@ -44,7 +38,7 @@ const getItemByCIF = async (req, res) => {
 /** Crea un nuevo comercio en la base de datos */
 const createItem = async (req, res) => {
     try {
-        const { body } = req; // Extrae los datos validados del cuerpo de la solicitud
+        const body = matchedData(req); // Valida los datos
         const data = await Comercio.create(body); // Crear un nuevo comercio con los datos proporcionados
         res.send(data);
     } catch (err) {
@@ -55,7 +49,7 @@ const createItem = async (req, res) => {
 /** Actualiza un comercio existente en la base de datos */
 const updateItem = async (req, res) => {
     try {
-        const { body } = req; // Obtiene los datos actualizados del cuerpo de la solicitud
+        const body = matchedData(req); // Valida los datos
         const cif = req.params.cif; // Obtiene el CIF del comercio desde los parámetros de la solicitud
         const data = await Comercio.findOneAndUpdate({ cif: cif }, body, { new: true }); // Busca y actualiza el comercio con el CIF proporcionado
 
@@ -75,6 +69,8 @@ const deleteItem = async (req, res) => {
         const cif = req.params.cif; // Obtiene el cif desde la solicitud
         const tipo = req.query.tipo; // Obtiene el tipo de eliminación
 
+        console.log(tipo);
+
         // Tipos de eliminación permitidos
         const allowedTipos = ['logico', 'fisico'];
         // Validar que el tipo de eliminación especificado sea válido
@@ -85,8 +81,8 @@ const deleteItem = async (req, res) => {
 
         // Realizar la eliminación lógica o física según el tipo especificado
         if (tipo === 'logico')
-            data = await Comercio.findOneAndUpdate({ cif: cif }, { deleted: true }, { new: true });
-        else
+            data = await Comercio.deleteOne({ cif: cif });
+        else if (tipo === 'fisico')
             data = await Comercio.findOneAndDelete({ cif: cif });
 
         res.send(data);

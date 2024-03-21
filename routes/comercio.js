@@ -2,7 +2,6 @@
  * Este archivo define las rutas para las operaciones de los comercios.
  */
 
-
 const express = require('express'); // Importar el módulo 'express' para manejar las rutas
 const router = express.Router(); // Crear un enrutador para manejar las rutas
 

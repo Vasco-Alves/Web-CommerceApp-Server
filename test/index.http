@@ -3,10 +3,6 @@ GET http://localhost:3000/api/comercio HTTP/1.1
 
 ###
 
-GET http://localhost:3000/api/comercio?order=cif HTTP/1.1
-
-###
-
 // Petición GET de todos un comercio por su CIF.
 GET http://localhost:3000/api/comercio/B00116546 HTTP/1.1
 
@@ -58,7 +54,7 @@ Content-Type: application/json
   "telefonoContacto": "123456789",
   "idPagina": 1,
   "description": "Very good food.",
-  "reviews": ["Very good", "Tasty!"]
+  "reviews": ["Very nice", "Tasty!"]
 }
 
 ###
